@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+/* 全体CSS・全ページに適応 */
+html{
+	font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Noto Serif JP', serif;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+    
+main{
+    text-align:center
+}
+body{
+	margin-right: auto;
+	margin-left : auto;
+	width:700px; 
+	text-align:center
+}
+h1 {
+  background: linear-gradient(transparent 70%, #16A6B6 70%);
+  display: inline-block;
+  width: 300px;
+}
+
+
+/* hedder.jspのリンクボタンに適応 */
+.button {
+ font-family: 'Noto Sans JP', sans-serif;
+ font-family: 'Noto Serif JP', serif;
+ font-family: 'M PLUS Rounded 1c', sans-serif;
+ background-color: #FFFFF;
+  border: 2px solid rgba(255,255,255,.8);
+  color: #16A6B6;
+  line-height: 50px;
+}
+.button:hover {
+  background-color: #F5F5F5;
+  border-color: #BFBFBF;
+  color: #16A6B6;
+}
+
+
+/* hedder.jspのsubmitボタンを横並びにする */
+header{
+	display: flex;
+  justify-content: center;
+}
+
+/* login.jspに適用 */
+.box {
+	background-color: #FFFFFF;
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    border: double 5px #EE6557;
+}
+.box p {
+    margin: 0; 
+    padding: 0;
+}
+
+html {
+  height:100%;
+}
+
+body {
+  margin:0;
+}
+
+.bg {
+  animation:slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
+  bottom:0;
+  left:-50%;
+  opacity:.5;
+  position:fixed;
+  right:-50%;
+  top:0;
+  z-index:-1;
+}
+
+.bg2 {
+  animation-direction:alternate-reverse;
+  animation-duration:4s;
+}
+
+.bg3 {
+  animation-duration:5s;
+}
+
+.content {
+  background-color:rgba(255,255,255,.8);
+  border-radius:.25em;
+  box-shadow:0 0 .25em rgba(0,0,0,.25);
+  box-sizing:border-box;
+  left:50%;
+  padding:10vmin;
+  position:fixed;
+  text-align:center;
+  top:50%;
+  transform:translate(-50%, -50%);
+}
+.content1 {
+	text-aline:center;
+  display:block;
+  background-color:rgba(255,255,255,.8);
+  border-radius:.25em;
+  box-shadow:0 0 .25em rgba(0,0,0,.25);
+  box-sizing:border-box;
+  left:50%;
+  padding:10vmin;
+  top:50%;
+  transform:translate(-50%, -50%);
+}
+
+@keyframes slide {
+  0% {
+    transform:translateX(-25%);
+  }
+  100% {
+    transform:translateX(25%);
+  }
+}
+
+
