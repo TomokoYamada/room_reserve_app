@@ -43,35 +43,37 @@ public class DB {
 		ResultSet rs2 = null;
 		String[]ary = new String[2];
 		try{
-			System.out.print("a");
 			if(userID == null || userID.length() == 0 || pass == null || pass.length() == 0) {
 				ary[0]="なし";
 				ary[1]="空";
 			}
-			System.out.print("b");
+			// データベースのownerID,passwordが入力されたものと一致するか
+			// 管理者ページ
 			String sql = "select * from owner where ownerID=? and password=?";
 			ps = this.con.prepareStatement(sql);
 			ps.setString(1, userID);
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
 
-			System.out.print("c");
+			// 顧客
 			String sqls = "select * from customer where loginID=? and password=?";
 			ps2 = this.con.prepareStatement(sqls);
 			ps2.setString(1, userID);
 			ps2.setString(2, pass);
 			rs2 = ps2.executeQuery();
-			System.out.print("d");
+			// 管理者IDとパスが一致
 			if(rs.next()) {
 				ary[0] = "オーナー";
 				String kari = rs.getString("ownerID");
 				ary[1] = kari;
 
+			// 顧客IDとパスが一致
 			}else if(rs2.next()) {
 				ary[0] = "顧客";
 				String kari = rs2.getString("loginID");
 				ary[1] = kari;
 
+			// IDとパスが登録されていない
 			}else {
 				ary[0] = "なし";
 				ary[1] = "空";
@@ -101,25 +103,22 @@ public class DB {
 		return ary;
 	}
 	
+
+	// 新規登録重複確認　inputservlet
 	public boolean dupliCheck(String loginID) {
 		this.dbConnect();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try{
-			System.out.print("a");
-
-			System.out.print("b");
 			String sql = "select * from customer where loginID=?";
 			ps = this.con.prepareStatement(sql);
 			ps.setString(1, loginID);
 			rs = ps.executeQuery();
 
-			System.out.print("c");
-
-			System.out.print("d");
+			// 同じIDが使用されていた場合
 			if(rs.next()) {
 				return false;
-
+			// ID使用可能
 			}else {
 				return true;
 			}
@@ -147,15 +146,14 @@ public class DB {
 		}
 	}
 
+	
+	// 顧客新規登録　inputServlet
 	public boolean customerAdd(String name,String loginID,String password) {
 		this.dbConnect();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		int rs2;
 		try{
-			System.out.print("a");
-
-			System.out.print("b");
 			String sql = "Insert into customer values(null,?,?,?)";
 			ps = this.con.prepareStatement(sql);
 			ps.setString(1, name);
@@ -163,7 +161,6 @@ public class DB {
 			ps.setString(3, password);
 			rs2 = ps.executeUpdate();
 
-			System.out.print("c");
 
 			return true;
 
@@ -191,6 +188,7 @@ public class DB {
 		}
 	}
 
+	// 自分の予約状況をselect　myreserveServlet
 	public ArrayList<SearchBean> seMyreserve(String loginID) {
 		this.dbConnect();
 		ArrayList<SearchBean> list = new ArrayList<SearchBean>();
@@ -201,24 +199,23 @@ public class DB {
 		String UserID = null;
 
 		try{
-			System.out.print("a");
-
-			System.out.print("b");
+			// loginIDから顧客情報を取得する
 			String sql = "select * from customer where loginID=?";
 			ps = this.con.prepareStatement(sql);
 			ps.setString(1,loginID);
 			rs = ps.executeQuery();
 
-			System.out.print("c");
+			// rsの顧客IDを使って予約テーブルから情報を取得する
 			while(rs.next()) {
 				UserID = rs.getString("userID");
-				System.out.print("c+");
 			}
+			// 顧客の予約情報を取得する。
+			// 条件：取得した顧客IDの予約、キャンセルされていない（status=0)
+			// 予約のroomIDと一致するroomNameをroom tableから取得する
 			String sql2 = "SELECT * FROM room,reservation where userID=? and status=0 and reservation.roomID=room.roomID";
 			ps2 = this.con.prepareStatement(sql2);
 			ps2.setString(1,UserID);
 			rs2=ps2.executeQuery();
-			System.out.print("d");
 			while(rs2.next()) {
 				String roomName = rs2.getString("roomName");
 				String capacity = rs2.getString("capacity");
@@ -232,7 +229,6 @@ public class DB {
 
 			}
 
-			System.out.print("e");
 			System.out.print(list);
 		}catch(Exception ex){
 			System.out.print("通過ログインチェックnu");
@@ -256,30 +252,26 @@ public class DB {
 			}
 
 		}
+		// 予約状況リストを返す
 		return list;
 	}
 
-	public String sMyreserve(String loginID) {
+	// 自分の予約状況を表示するために、セッションから得たIDから顧客情報を取得するメソッド MyreservedServlet
+	public String seMyreserve(String loginID) {
 		this.dbConnect();
 
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-
 		String UserID = null;
 
 		try{
-			System.out.print("a");
-
-			System.out.print("b");
 			String sql = "select * from customer where loginID=?";
 			ps = this.con.prepareStatement(sql);
 			ps.setString(1,loginID);
 			rs = ps.executeQuery();
 
-			System.out.print("c");
 			while(rs.next()) {
 				UserID=rs.getString("userID");
-				System.out.print("c+");
 			}
 
 			return UserID;
@@ -303,10 +295,9 @@ public class DB {
 			}catch(Exception ex) {
 				System.err.println(ex.getMessage());
 			}
-
 		}
-
 	}
+
 	//管理ページメソッド
 	//会議室一覧表示メソッド
 	public List<RoomBean> getListRoom() {
@@ -569,7 +560,7 @@ public class DB {
 
 }
 
-
+		// 予約をキャンセルするメソッド
 		public boolean resCancel(String resID) {
 			this.dbConnect();
 			PreparedStatement ps = null;

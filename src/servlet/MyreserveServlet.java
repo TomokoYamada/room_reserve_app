@@ -13,9 +13,7 @@ import javax.servlet.http.HttpSession;
 import beans.SearchBean;
 import dclass.DB;
 
-/**
- * Servlet implementation class MyreserveServlet
- */
+
 public class MyreserveServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -25,11 +23,11 @@ public class MyreserveServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		// セッション情報からIDを取得する
 		HttpSession session = request.getSession();
 		String loginID = (String)session.getAttribute("loginUser");
 		System.out.print(loginID);
 		ArrayList<SearchBean> list=new ArrayList<SearchBean>();
-
 		DB lo = new DB();
 		list = lo.seMyreserve(loginID);
 		request.setAttribute("list", list);

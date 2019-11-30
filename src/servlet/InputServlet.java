@@ -27,7 +27,7 @@ public class InputServlet extends HttpServlet {
 		boolean check = lo.dupliCheck(loginID);
 
 		if(check) {
-			boolean recheck = lo.cusAdd(name, loginID, password);
+			boolean recheck = lo.customerAdd(name, loginID, password);
 			if(recheck) {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginUser", loginID);
@@ -35,7 +35,7 @@ public class InputServlet extends HttpServlet {
 				rd.forward(request,response);
 			}else {
 				RequestDispatcher rd = request.getRequestDispatcher("customer-input.jsp");
-				rd.forward(request,response);
+				rd.forward(request, response);
 			}
 		}
 
